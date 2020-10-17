@@ -1,11 +1,11 @@
-# Tradutor básico Dart-Java
+# Interpretador Dart
 
 <p>
 Projeto feito para a cadeira de Paradigmas de Linguagens de Programação da Universidade Católica de Pernambuco no período 2020.2.
 </p>
 
 <p>
-Esse programa traduz um código Dart simples para um código Java. 
+Esse programa é um interpretador de um código Dart simples feito em Java.
 </p>
 
 # Features
@@ -43,6 +43,6 @@ Esse programa traduz um código Dart simples para um código Java.
 
 # Run
 
-O projeto já vem com um código Dart pronto para ser traduzido, encontrado em `src/main/resources/Calculadora.dart`. O projeto está configurado para rodar este arquivo especificamente, portanto caso queira-se rodar outro código deve-se entrar nas classes `file.ReaderManager` e `file.WriterManager` e mudar a variável `nomeArquivo`, deixando as suas respectivas extensões intactas.
+O projeto já vem com um código Dart de exemplo pronto para ser interpretador, encontrado em `src/main/resources/Calculadora.dart`. O projeto está configurado para rodar este arquivo especificamente, portanto caso queira-se rodar outro código deve-se entrar nas classes `file.ReaderManager` e `file.WriterManager` e mudar a variável `nomeArquivo`, deixando as suas respectivas extensões intactas.
 
 Para rodar o projeto basta apenas rodar o `main`.
