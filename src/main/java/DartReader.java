@@ -10,6 +10,8 @@ import interpreter.InterpreterManager;
  */
 public class DartReader {
 
+    //TODO BUG: O resultado é:  + result
+
     public static void main(String[] args) {
         ReaderManager.lerArquivo();
         InterpreterManager.interpretarLinhas();
