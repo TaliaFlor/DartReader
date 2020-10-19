@@ -10,7 +10,7 @@ import interpreter.InterpreterManager;
  */
 public class DartReader {
 
-    //TODO BUG: O resultado é:  + result
+    //TODO BUG: O resultado é:  + result ---> if está entrando em tudo
 
     public static void main(String[] args) {
         ReaderManager.lerArquivo();

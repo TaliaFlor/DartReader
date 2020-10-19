@@ -15,6 +15,7 @@ public class ConditionalHandler implements DataContainer {
 
     public static void condicional(String linha){
         GlobalVariables.LER_CHAVES = false;
+
         String condicao = linha.replace("if", "").replace("(", "")
                 .replace(")","").replace("{","");
 
