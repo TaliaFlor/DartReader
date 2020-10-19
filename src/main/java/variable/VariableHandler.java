@@ -3,13 +3,9 @@ package variable;
 import data.DataContainer;
 import enums.MathOperator;
 import enums.Type;
-import file.WriterManager;
 import io.InputHandler;
 import operators.MathematicalOperatorHandler;
 import util.Util;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * <p>
@@ -21,8 +17,6 @@ public class VariableHandler implements DataContainer {
     private static final String EMPTY_STRING = "";
 
 
-
-
     /**
      * <p>
      * Defini uma variável de acordo co seu tipo
@@ -32,9 +26,9 @@ public class VariableHandler implements DataContainer {
      */
     public static void definirVariavel(String line) {
         Type tipo;
-        if(variaveis.containsKey(line.split("=")[0].trim())){
+        if (variaveis.containsKey(line.split("=")[0].trim())) {
             tipo = tipos.get(line.split("=")[0].trim());
-        }else {
+        } else {
             if (Util.isInt(line)) {
                 tipo = Type.INT;
             } else if (Util.isDouble(line) || Util.isNum(line)) {
@@ -114,7 +108,7 @@ public class VariableHandler implements DataContainer {
         if (partes.length > 1 && partes[1].contains("stdin.readLineSync()")) {   // Adiciona linha que recebe o input do usuário
             valor = InputHandler.input(tipo);
 
-        }else if(partes.length >1){
+        } else if (partes.length > 1) {
             valor = getValor(partes[1], tipo);
         }
 
@@ -123,18 +117,17 @@ public class VariableHandler implements DataContainer {
     }
 
     private static Object getValor(String valor, Type tipo) {
-        Object retorno = null;
+        Object retorno;
         if (variaveis.containsKey(valor)) {
             retorno = variaveis.get(valor);
-
-        } else if ((valor.contains(MathOperator.ADD.get()) && !valor.contains("\'")) || valor.contains(MathOperator.SUB.get())
+        } else if ((valor.contains(MathOperator.ADD.get()) && !valor.contains("'")) || valor.contains(MathOperator.SUB.get())
                 || valor.contains(MathOperator.MULT.get()) || valor.contains(MathOperator.DIV.get())) {
             retorno = MathematicalOperatorHandler.mathOperator(valor);
-        }else if (tipo == Type.STRING){
+        } else if (tipo == Type.STRING) {
             retorno = valor;
-        }else if (tipo == Type.BOOLEAN){
+        } else if (tipo == Type.BOOLEAN) {
             retorno = Boolean.parseBoolean(valor);
-        }else{
+        } else {
             retorno = Double.parseDouble(valor);
         }
 

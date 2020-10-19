@@ -37,7 +37,8 @@ public class InterpreterManager implements DataContainer {
      */
     private static boolean hasVariavel(String linha) {
         return linha.startsWith("int") || linha.startsWith("double") || linha.startsWith("num") ||
-                linha.startsWith("boolean") || linha.startsWith("string") || linha.startsWith("var") || linha.contains("=");
+                linha.startsWith("boolean") || linha.startsWith("string") || linha.startsWith("var")
+                || (!linha.contains("==") && linha.contains("="));
     }
 
     /**
