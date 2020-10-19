@@ -1,7 +1,11 @@
 package data;
 
+import enums.Type;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -15,6 +19,9 @@ public interface DataContainer {
      * Contém todas as linhas do arquivo .dart de entrada
      * </p>
      */
+
     List<String> linhas = new ArrayList<>();
+    Map<String, Object> variaveis = new HashMap<>();
+    Map<String, Type> tipos = new HashMap<>();
 
 }

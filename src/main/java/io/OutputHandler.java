@@ -1,13 +1,17 @@
 package io;
 
+import data.DataContainer;
+import enums.MathOperator;
+import enums.Type;
 import file.WriterManager;
+import operators.MathematicalOperatorHandler;
 
 /**
  * <p>
  * Classe responsávelpor lidar com a tradução da saída de dados (Comandos de saída)
  * </p>
  */
-public class OutputHandler {
+public class OutputHandler  implements DataContainer {
     private static final String EMPTY_STRING = "";
     private static final String ASPAS_SIMPLES = "'";
     private static final String ASPAS_DUPLAS = "\"";
@@ -22,7 +26,7 @@ public class OutputHandler {
      */
     public static void print(String linha) {
         linha = limparLinha(linha);
-        WriterManager.addLinha("System.out.println(" + getOutput(linha) + ");");
+        System.out.println(getOutput(linha));
     }
 
 
@@ -55,7 +59,13 @@ public class OutputHandler {
         Object output;
         if (linha.startsWith(ASPAS_SIMPLES)) {
             output = linha.replace(ASPAS_SIMPLES, ASPAS_DUPLAS);
-        } else {
+        }else if (variaveis.containsKey(linha)) {
+            output = variaveis.get(linha);
+        }else if((linha.contains(MathOperator.ADD.get()) && !linha.contains("\'")) || linha.contains(MathOperator.SUB.get())
+        ||linha.contains(MathOperator.MULT.get()) || linha.contains(MathOperator.DIV.get()) ){
+            output = MathematicalOperatorHandler.mathOperator(linha);
+
+    }else {
             output = linha;
         }
         return output;

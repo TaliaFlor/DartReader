@@ -1,6 +1,6 @@
 import file.ReaderManager;
 import file.WriterManager;
-import translator.TranslatorManager;
+import interpreter.InterpreterManager;
 
 /**
  * <p>
@@ -12,8 +12,8 @@ public class DartReader {
 
     public static void main(String[] args) {
         ReaderManager.lerArquivo();
-        TranslatorManager.traduzirLinhas();
-        WriterManager.escreverArquivo();
+        InterpreterManager.interpretarLinhas();
+        
     }
 
 }

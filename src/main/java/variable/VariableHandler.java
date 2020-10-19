@@ -1,8 +1,11 @@
 package variable;
 
+import data.DataContainer;
+import enums.MathOperator;
 import enums.Type;
 import file.WriterManager;
 import io.InputHandler;
+import operators.MathematicalOperatorHandler;
 import util.Util;
 
 import java.util.HashMap;
@@ -13,11 +16,11 @@ import java.util.Map;
  * Classe reponsável por traduzir a definição das variáveis
  * </p>
  */
-public class VariableHandler {
+public class VariableHandler implements DataContainer {
 
     private static final String EMPTY_STRING = "";
 
-    private static final Map<String, Type> tipos = new HashMap<>();     // Contém os tipos das variáveis
+
 
 
     /**
@@ -29,16 +32,20 @@ public class VariableHandler {
      */
     public static void definirVariavel(String line) {
         Type tipo;
-        if (Util.isInt(line)) {
-            tipo = Type.INT;
-        } else if (Util.isDouble(line) || Util.isNum(line)) {
-            tipo = Type.DOUBLE;
-        } else if (Util.isBoolean(line)) {
-            tipo = Type.BOOLEAN;
-        } else if (Util.isString(line)) {
-            tipo = Type.STRING;
-        } else {
-            tipo = Type.VAR;
+        if(variaveis.containsKey(line.split("=")[0].trim())){
+            tipo = tipos.get(line.split("=")[0].trim());
+        }else {
+            if (Util.isInt(line)) {
+                tipo = Type.INT;
+            } else if (Util.isDouble(line) || Util.isNum(line)) {
+                tipo = Type.DOUBLE;
+            } else if (Util.isBoolean(line)) {
+                tipo = Type.BOOLEAN;
+            } else if (Util.isString(line)) {
+                tipo = Type.STRING;
+            } else {
+                tipo = Type.VAR;
+            }
         }
         writeVariavel(line, tipo);
     }
@@ -98,11 +105,7 @@ public class VariableHandler {
     private static void writeVariavel(String line, Type tipo) {
         String[] partes = getPartes(line);
         String nome = partes[0];
-        Object valor = "null;";
-
-        if (partes.length > 1) {
-            valor = partes[1];
-        }
+        Object valor = null;
 
         if (tipo == Type.VAR && partes.length > 1) {
             tipo = getTrueType(partes[1]);
@@ -110,10 +113,31 @@ public class VariableHandler {
 
         if (partes.length > 1 && partes[1].contains("stdin.readLineSync()")) {   // Adiciona linha que recebe o input do usuário
             valor = InputHandler.input(tipo);
+
+        }else if(partes.length >1){
+            valor = getValor(partes[1], tipo);
         }
 
         tipos.put(nome, tipo);
-        WriterManager.addLinha(tipo.java() + " " + nome + " = " + valor);
+        variaveis.put(nome, valor);
     }
 
+    private static Object getValor(String valor, Type tipo) {
+        Object retorno = null;
+        if (variaveis.containsKey(valor)) {
+            retorno = variaveis.get(valor);
+
+        } else if ((valor.contains(MathOperator.ADD.get()) && !valor.contains("\'")) || valor.contains(MathOperator.SUB.get())
+                || valor.contains(MathOperator.MULT.get()) || valor.contains(MathOperator.DIV.get())) {
+            retorno = MathematicalOperatorHandler.mathOperator(valor);
+        }else if (tipo == Type.STRING){
+            retorno = valor;
+        }else if (tipo == Type.BOOLEAN){
+            retorno = Boolean.parseBoolean(valor);
+        }else{
+            retorno = Double.parseDouble(valor);
+        }
+
+        return retorno;
+    }
 }

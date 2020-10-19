@@ -1,5 +1,6 @@
-package translator;
+package interpreter;
 
+import controledefluxo.ConditionalHandler;
 import data.DataContainer;
 import file.WriterManager;
 import io.OutputHandler;
@@ -10,17 +11,17 @@ import variable.VariableHandler;
  * Classe responsável por traduzir as linhas de código de Dart para Java
  * </p>
  */
-public class TranslatorManager implements DataContainer {
+public class InterpreterManager implements DataContainer {
 
     /**
      * <p>
      * Traduz as linhas do arquivo lido de Dart para Java
      * </p>
      */
-    public static void traduzirLinhas() {
+    public static void interpretarLinhas() {
         linhas.stream()
                 .map(String::trim)
-                .forEach(TranslatorManager::traduzirLinha);
+                .forEach(InterpreterManager::interpretarLinha);
     }
 
 
@@ -36,7 +37,7 @@ public class TranslatorManager implements DataContainer {
      */
     private static boolean hasVariavel(String linha) {
         return linha.startsWith("int") || linha.startsWith("double") || linha.startsWith("num") ||
-                linha.startsWith("boolean") || linha.startsWith("string") || linha.startsWith("var");
+                linha.startsWith("boolean") || linha.startsWith("string") || linha.startsWith("var") || linha.contains("=");
     }
 
     /**
@@ -46,7 +47,7 @@ public class TranslatorManager implements DataContainer {
      *
      * @param linha linha a ser traduzida
      */
-    private static void traduzirLinha(String linha) {
+    private static void interpretarLinha(String linha) {
         if (linha.isEmpty()) {
             WriterManager.pularLinha();
             return;
@@ -60,8 +61,8 @@ public class TranslatorManager implements DataContainer {
             OutputHandler.print(linha);
         } else if (hasVariavel(linha)) {
             VariableHandler.definirVariavel(linha);
-        } else {
-            WriterManager.addLinha(linha);
+        }else if (linha.contains("if")){
+            ConditionalHandler.condicional(linha);
         }
     }
 
