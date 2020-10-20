@@ -16,18 +16,16 @@ Esse programa é um interpretador de um código Dart simples feito em Java.
     - num
     - boolean
     - string
-- Comandos de controle de fluxo
-    - if
-    - for indexado
-    - while
+- Comando de controle de fluxo de forma limitada (não suporta ifs aninhados)
+    - if-elseif-else
 - Comandos de entrada e saída
 - Operações matemáticas básicas
     - soma
     - subtração
     - multiplicação
     - divisão
-- Comandos de atribuição (sem ou com operações básicas)
-- Operadores de comparação
+- Comandos de atribuição (sem ou com uma operação básica)
+- Operadores de comparação (um por operação)
     - igual
     - diferente
     - menor que
@@ -43,6 +41,6 @@ Esse programa é um interpretador de um código Dart simples feito em Java.
 
 # Run
 
-O projeto já vem com um código Dart de exemplo pronto para ser interpretador, encontrado em `src/main/resources/Calculadora.dart`. O projeto está configurado para rodar este arquivo especificamente, portanto caso queira-se rodar outro código deve-se entrar nas classes `file.ReaderManager` e `file.WriterManager` e mudar a variável `nomeArquivo`, deixando as suas respectivas extensões intactas.
+O projeto já vem com um código Dart de exemplo pronto para ser interpretado, encontrado em `src/main/resources/Calculadora.dart`. O projeto está configurado para rodar este arquivo especificamente, portanto caso queira-se rodar outro código deve-se entrar na classe `file.ReaderManager` e mudar a variável `nomeArquivo`, mantendo a extensão `.dart`.
 
 Para rodar o projeto basta apenas rodar o `main`.
