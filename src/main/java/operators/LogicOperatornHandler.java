@@ -1,6 +1,5 @@
 package operators;
 
-import controledefluxo.ConditionalHandler;
 import data.DataContainer;
 import enums.LogicOperator;
 import enums.RelationalOperator;
@@ -22,14 +21,13 @@ public class LogicOperatornHandler implements DataContainer {
 
             }
 
-            if (condicao.contains(RelationalOperator.MAIOR_QUE.get() ) || condicao.contains(RelationalOperator.MENOR_QUE.get())
-                    ||condicao.contains(RelationalOperator.MAIOR_IGUAL.get() ) || condicao.contains(RelationalOperator.MENOR_IGUAL.get())
-                    || condicao.contains(RelationalOperator.IGUAL.get())  ||  condicao.contains(RelationalOperator.DIFERENTE.get())){
+            if (condicao.contains(RelationalOperator.MAIOR_QUE.get()) || condicao.contains(RelationalOperator.MENOR_QUE.get())
+                    || condicao.contains(RelationalOperator.MAIOR_IGUAL.get()) || condicao.contains(RelationalOperator.MENOR_IGUAL.get())
+                    || condicao.contains(RelationalOperator.IGUAL.get()) || condicao.contains(RelationalOperator.DIFERENTE.get())) {
 
                 condicao1 = RelationalOperatorHandler.relationalOperator(partes[0]);
 
             }
-
 
 
             if (partes[1].trim().equals("true") || partes[1].trim().equals("false")) {
@@ -37,16 +35,16 @@ public class LogicOperatornHandler implements DataContainer {
             } else if (variaveis.containsKey(partes[1]) && tipos.get(partes[1]) == Type.BOOLEAN) {
                 condicao2 = (boolean) variaveis.get(partes[1]);
             }
-            if (condicao.contains(RelationalOperator.MAIOR_QUE.get() ) || condicao.contains(RelationalOperator.MENOR_QUE.get())
-                    ||condicao.contains(RelationalOperator.MAIOR_IGUAL.get() ) || condicao.contains(RelationalOperator.MENOR_IGUAL.get())
-                    || condicao.contains(RelationalOperator.IGUAL.get())  ||  condicao.contains(RelationalOperator.DIFERENTE.get())){
+            if (condicao.contains(RelationalOperator.MAIOR_QUE.get()) || condicao.contains(RelationalOperator.MENOR_QUE.get())
+                    || condicao.contains(RelationalOperator.MAIOR_IGUAL.get()) || condicao.contains(RelationalOperator.MENOR_IGUAL.get())
+                    || condicao.contains(RelationalOperator.IGUAL.get()) || condicao.contains(RelationalOperator.DIFERENTE.get())) {
 
                 condicao2 = RelationalOperatorHandler.relationalOperator(partes[1]);
 
             }
-            if(condicao1 && condicao2){
-              resultado = true;
-            }else{
+            if (condicao1 && condicao2) {
+                resultado = true;
+            } else {
                 resultado = false;
             }
         } else {
@@ -59,34 +57,34 @@ public class LogicOperatornHandler implements DataContainer {
             } else if (variaveis.containsKey(partes[0]) && tipos.get(partes[0]) == Type.BOOLEAN) {
                 condicao1 = (boolean) variaveis.get(partes[0]);
             }
-                if (condicao.contains(RelationalOperator.MAIOR_QUE.get() ) || condicao.contains(RelationalOperator.MENOR_QUE.get())
-                        ||condicao.contains(RelationalOperator.MAIOR_IGUAL.get() ) || condicao.contains(RelationalOperator.MENOR_IGUAL.get())
-                        || condicao.contains(RelationalOperator.IGUAL.get())  ||  condicao.contains(RelationalOperator.DIFERENTE.get())){
+            if (condicao.contains(RelationalOperator.MAIOR_QUE.get()) || condicao.contains(RelationalOperator.MENOR_QUE.get())
+                    || condicao.contains(RelationalOperator.MAIOR_IGUAL.get()) || condicao.contains(RelationalOperator.MENOR_IGUAL.get())
+                    || condicao.contains(RelationalOperator.IGUAL.get()) || condicao.contains(RelationalOperator.DIFERENTE.get())) {
 
-                    condicao1 = RelationalOperatorHandler.relationalOperator(partes[0]);
+                condicao1 = RelationalOperatorHandler.relationalOperator(partes[0]);
 
-                }
+            }
             if (partes[1].trim().equals("true") || partes[1].trim().equals("false")) {
                 condicao2 = Boolean.parseBoolean(partes[1]);
             } else if (variaveis.containsKey(partes[1]) && tipos.get(partes[1]) == Type.BOOLEAN) {
                 condicao2 = (boolean) variaveis.get(partes[1]);
             }
-            if (condicao.contains(RelationalOperator.MAIOR_QUE.get() ) || condicao.contains(RelationalOperator.MENOR_QUE.get())
-                    ||condicao.contains(RelationalOperator.MAIOR_IGUAL.get() ) || condicao.contains(RelationalOperator.MENOR_IGUAL.get())
-                    || condicao.contains(RelationalOperator.IGUAL.get())  ||  condicao.contains(RelationalOperator.DIFERENTE.get())){
+            if (condicao.contains(RelationalOperator.MAIOR_QUE.get()) || condicao.contains(RelationalOperator.MENOR_QUE.get())
+                    || condicao.contains(RelationalOperator.MAIOR_IGUAL.get()) || condicao.contains(RelationalOperator.MENOR_IGUAL.get())
+                    || condicao.contains(RelationalOperator.IGUAL.get()) || condicao.contains(RelationalOperator.DIFERENTE.get())) {
 
                 condicao2 = RelationalOperatorHandler.relationalOperator(partes[1]);
 
             }
 
-            if(condicao1 || condicao2){
+            if (condicao1 || condicao2) {
                 resultado = true;
-            }else{
+            } else {
                 resultado = false;
             }
         }
 
-        return  resultado;
+        return resultado;
 
     }
 

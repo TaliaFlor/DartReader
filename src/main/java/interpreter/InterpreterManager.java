@@ -2,8 +2,6 @@ package interpreter;
 
 import controledefluxo.ConditionalHandler;
 import data.DataContainer;
-import data.GlobalVariables;
-import file.WriterManager;
 import io.OutputHandler;
 import variable.VariableHandler;
 
@@ -51,7 +49,6 @@ public class InterpreterManager implements DataContainer {
      */
     private static void interpretarLinha(String linha) {
         if (linha.isEmpty()) {
-            WriterManager.pularLinha();
             return;
         }
 
@@ -59,30 +56,32 @@ public class InterpreterManager implements DataContainer {
             return;
         }
 
-        if (linha.contains("if")) {
-            if (GlobalVariables.PRIMEIRO_IF) {
-                GlobalVariables.PRIMEIRO_IF = false;
-                GlobalVariables.ENCONTROU_IF = true;
+//        if (linha.contains("if")) {
+//            if (GlobalVariables.PRIMEIRO_IF) {
+//                GlobalVariables.PRIMEIRO_IF = false;
+//                GlobalVariables.ENCONTROU_IF = true;
+//
+//                ConditionalHandler.condicional(linha);
+//            }
+//        } else (linha.contains("else") && !GlobalVariables.LER_CHAVES) {
+//            ConditionalHandler.condicional(linha);
+//        }
 
-                ConditionalHandler.condicional(linha);
-            }
-        } else (linha.contains("else") && !GlobalVariables.LER_CHAVES) {
+//        if (!GlobalVariables.ENCONTROU_IF || (GlobalVariables.ENCONTROU_IF && GlobalVariables.LER_CHAVES)) {
+        if (linha.startsWith("print(")) {
+            OutputHandler.print(linha);
+        } else if (hasVariavel(linha)) {
+            VariableHandler.definirVariavel(linha);
+        } else if (linha.contains("if")) {
             ConditionalHandler.condicional(linha);
         }
-
-        if (!GlobalVariables.ENCONTROU_IF || (GlobalVariables.ENCONTROU_IF && GlobalVariables.LER_CHAVES)) {
-            if (linha.startsWith("print(")) {
-                OutputHandler.print(linha);
-            } else if (hasVariavel(linha)) {
-                VariableHandler.definirVariavel(linha);
-            }
-        } else if (linha.contains("if") || linha.contains("else")) {
-            if (GlobalVariables.PRIMEIRO_IF) {
-                GlobalVariables.PRIMEIRO_IF = false;
-                GlobalVariables.ENCONTROU_IF = true;
-
-                ConditionalHandler.condicional(linha);
-            }
+//        } else if (linha.contains("if") || linha.contains("else")) {
+//            if (GlobalVariables.PRIMEIRO_IF) {
+//                GlobalVariables.PRIMEIRO_IF = false;
+//                GlobalVariables.ENCONTROU_IF = true;
+//
+//                ConditionalHandler.condicional(linha);
+//            }
 
 //
 //            if (!GlobalVariables.ENCONTROU_IF) {
@@ -97,7 +96,6 @@ public class InterpreterManager implements DataContainer {
 //                }
 //            }
 
-        }
     }
 
 }

@@ -12,9 +12,9 @@ public enum RelationalOperator {
     private final String operador;
 
 
-    RelationalOperator(String operador){
+    RelationalOperator(String operador) {
 
-        this.operador= operador;
+        this.operador = operador;
     }
 
     public String get() {

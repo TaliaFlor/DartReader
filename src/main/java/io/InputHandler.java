@@ -1,7 +1,6 @@
 package io;
 
 import enums.Type;
-import file.WriterManager;
 
 import java.util.Scanner;
 

@@ -10,9 +10,9 @@ public enum MathOperator {
     private final String operador;
 
 
-    MathOperator(String operador){
+    MathOperator(String operador) {
 
-        this.operador= operador;
+        this.operador = operador;
     }
 
     public String get() {

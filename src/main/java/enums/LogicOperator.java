@@ -8,9 +8,9 @@ public enum LogicOperator {
     private final String operador;
 
 
-    LogicOperator(String operador){
+    LogicOperator(String operador) {
 
-        this.operador= operador;
+        this.operador = operador;
     }
 
     public String get() {

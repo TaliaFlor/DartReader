@@ -1,5 +1,4 @@
 import file.ReaderManager;
-import file.WriterManager;
 import interpreter.InterpreterManager;
 
 /**
@@ -15,7 +14,6 @@ public class DartReader {
     public static void main(String[] args) {
         ReaderManager.lerArquivo();
         InterpreterManager.interpretarLinhas();
-        
     }
 
 }
