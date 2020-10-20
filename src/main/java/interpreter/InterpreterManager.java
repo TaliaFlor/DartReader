@@ -2,6 +2,7 @@ package interpreter;
 
 import controledefluxo.ConditionalHandler;
 import data.DataContainer;
+import data.GlobalVariables;
 import io.OutputHandler;
 import variable.VariableHandler;
 
@@ -56,46 +57,30 @@ public class InterpreterManager implements DataContainer {
             return;
         }
 
-//        if (linha.contains("if")) {
-//            if (GlobalVariables.PRIMEIRO_IF) {
-//                GlobalVariables.PRIMEIRO_IF = false;
-//                GlobalVariables.ENCONTROU_IF = true;
-//
-//                ConditionalHandler.condicional(linha);
-//            }
-//        } else (linha.contains("else") && !GlobalVariables.LER_CHAVES) {
-//            ConditionalHandler.condicional(linha);
-//        }
-
-//        if (!GlobalVariables.ENCONTROU_IF || (GlobalVariables.ENCONTROU_IF && GlobalVariables.LER_CHAVES)) {
-        if (linha.startsWith("print(")) {
-            OutputHandler.print(linha);
-        } else if (hasVariavel(linha)) {
-            VariableHandler.definirVariavel(linha);
-        } else if (linha.contains("if")) {
-            ConditionalHandler.condicional(linha);
+        if (GlobalVariables.ENCONTROU_IF) {
+            if (linha.trim().startsWith("}")) {
+                if (linha.contains("if")) {
+                    ConditionalHandler.condicional(linha);
+                } else {    // Para 'else' e ifs únicos
+                    GlobalVariables.ENCONTROU_IF = false;
+                }
+            } else if (GlobalVariables.LER_CHAVES) {
+                if (linha.startsWith("print(")) {
+                    OutputHandler.print(linha);
+                } else if (hasVariavel(linha)) {
+                    VariableHandler.definirVariavel(linha);
+                }
+            }
+        } else {
+            if (linha.startsWith("print(")) {
+                OutputHandler.print(linha);
+            } else if (hasVariavel(linha)) {
+                VariableHandler.definirVariavel(linha);
+            } else if (linha.contains("if")) {
+                GlobalVariables.ENCONTROU_IF = true;
+                ConditionalHandler.condicional(linha);
+            }
         }
-//        } else if (linha.contains("if") || linha.contains("else")) {
-//            if (GlobalVariables.PRIMEIRO_IF) {
-//                GlobalVariables.PRIMEIRO_IF = false;
-//                GlobalVariables.ENCONTROU_IF = true;
-//
-//                ConditionalHandler.condicional(linha);
-//            }
-
-//
-//            if (!GlobalVariables.ENCONTROU_IF) {
-//                GlobalVariables.ENCONTROU_IF = true;
-//
-//                ConditionalHandler.condicional(linha);
-//            } else if (GlobalVariables.ENCONTROU_IF && GlobalVariables.LER_CHAVES) {
-//                if (linha.startsWith("print(")) {
-//                    OutputHandler.print(linha);
-//                } else if (hasVariavel(linha)) {
-//                    VariableHandler.definirVariavel(linha);
-//                }
-//            }
-
     }
 
 }
