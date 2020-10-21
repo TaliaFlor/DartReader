@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  * </p>
  */
 public class ReaderManager implements DataContainer {
-    private static final String nomeArquivo = "Calculadora.dart";
+    private static final String nomeArquivo = "While.dart";
     private static final String path = "src/main/resources/" + nomeArquivo;
 
     /**

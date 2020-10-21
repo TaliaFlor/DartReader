@@ -1,6 +1,7 @@
 package interpreter;
 
 import controledefluxo.ConditionalHandler;
+import controledefluxo.WhileHandler;
 import data.DataContainer;
 import data.GlobalVariables;
 import io.OutputHandler;
@@ -79,6 +80,31 @@ public class InterpreterManager implements DataContainer {
             } else if (linha.contains("if")) {
                 GlobalVariables.ENCONTROU_IF = true;
                 ConditionalHandler.condicional(linha);
+            }
+        }
+        
+        if (GlobalVariables.ENCONTROU_WHILE) {
+            if (linha.trim().startsWith("while(")) {
+                if (linha.contains("){")) {
+                	WhileHandler.condicaoWhile(linha);
+                } else {    
+                    GlobalVariables.ENCONTROU_WHILE = false;
+                }
+            } else if (GlobalVariables.LER_CHAVES) {
+                if (linha.startsWith("print(")) {
+                    OutputHandler.print(linha);
+                } else if (hasVariavel(linha)) {
+                    VariableHandler.definirVariavel(linha);
+                }
+            }
+        } else {
+            if (linha.startsWith("print(")) {
+                OutputHandler.print(linha);
+            } else if (hasVariavel(linha)) {
+                VariableHandler.definirVariavel(linha);
+            } else if (linha.contains("while")) {
+                GlobalVariables.ENCONTROU_WHILE = true;
+                WhileHandler.condicaoWhile(linha);
             }
         }
     }
