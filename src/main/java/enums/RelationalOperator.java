@@ -1,7 +1,11 @@
 package enums;
 
+/**
+ * <p>
+ * Representa os operadores relacionais
+ * </p>
+ */
 public enum RelationalOperator {
-
     MAIOR_QUE(">"),
     MENOR_QUE("<"),
     MAIOR_IGUAL(">="),
@@ -9,17 +13,17 @@ public enum RelationalOperator {
     IGUAL("=="),
     DIFERENTE("!=");
 
-    private final String operador;
+
+    private final String valor;
 
 
-    RelationalOperator(String operador) {
-
-        this.operador = operador;
+    RelationalOperator(String valor) {
+        this.valor = valor;
     }
+
 
     public String get() {
-        return operador;
+        return valor;
     }
-
 
 }

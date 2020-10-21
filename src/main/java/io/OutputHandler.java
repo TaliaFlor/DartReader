@@ -2,28 +2,23 @@ package io;
 
 import data.DataContainer;
 import enums.MathOperator;
-import operators.MathematicalOperatorHandler;
+import global.Constants;
+import operators.MathOperatorHandler;
+import util.Util;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
- * Classe responsávelpor lidar com a tradução da saída de dados (Comandos de saída)
+ * Classe responsável por lidar com a interpretação da saída de dados (Comandos de saída)
  * </p>
  */
 public class OutputHandler implements DataContainer {
-    private static final String EMPTY_STRING = "";
-    private static final String ASPAS_SIMPLES = "'";
 
-
-    /**
-     * <p>
-     * Traduz a saída de dados de volta para o usuário
-     * </p>
-     *
-     * @param linha linha a ser traduzida
-     */
     public static void print(String linha) {
-        linha = limparLinha(linha);
-        System.out.println(getOutput(linha));
+        String mensagem = limpar(linha);
+        System.out.println(output(mensagem));
     }
 
 
@@ -31,17 +26,55 @@ public class OutputHandler implements DataContainer {
 
     /**
      * <p>
-     * Limpa a linha de caracteres e informações desnecessárias
+     * Deixa todos os valores com o mesmo tipo
+     * </p>
+     *
+     * @param valores os valores a serem normalizados
+     * @return os valores normalizados
+     */
+    private static String normalizaTipos(List<Object> valores) {
+        StringBuilder strBuilder = new StringBuilder();
+        for (Object valor : valores) {
+            strBuilder.append(valor);
+        }
+        return strBuilder.toString();
+    }
+
+    /**
+     * <p>
+     * Remove características desnecessárias da linha
      * </p>
      *
      * @param linha linha a ser limpa
-     * @return linha limpa
+     * @return linha limpa de caracteristicas desnecessárias
      */
-    private static String limparLinha(String linha) {
-        return linha.replace("print", EMPTY_STRING)
-                .replace(";", EMPTY_STRING)
-                .replace("(", EMPTY_STRING)
-                .replace(")", EMPTY_STRING);
+    private static String limpar(String linha) {
+        return linha.replace(Constants.PRINT, Constants.EMPTY_STRING)
+                .replace(Constants.PONTO_E_VIRGULA, Constants.EMPTY_STRING)
+                .replace(Constants.ABRE_PARENTESES, Constants.EMPTY_STRING)
+                .replace(Constants.FECHA_PARENTESES, Constants.EMPTY_STRING);
+    }
+
+    /**
+     * <p>
+     * Pega o valor de cada parte do output
+     * </p>
+     *
+     * @param partes as partes que contém os valores
+     * @return os valores de cada parte
+     */
+    private static List<Object> getValores(String[] partes) {
+        List<Object> valores = new ArrayList<>();
+        for (String parte : partes) {
+            Object valor = parte.trim().replace(Constants.ASPAS_SIMPLES, Constants.EMPTY_STRING);
+
+            if (variaveis.containsKey(valor)) {
+                valor = variaveis.get(valor);
+            }
+
+            valores.add(valor);
+        }
+        return valores;
     }
 
     /**
@@ -49,40 +82,27 @@ public class OutputHandler implements DataContainer {
      * Extrai a mensagem a ser exibida
      * </p>
      *
-     * @param linha linha que contém a mensagem
-     * @return a mensagem a ser exibida
+     * @param mensagem linha que contém a mensagem
+     * @return o output a ser exibido
      */
-    private static Object getOutput(String linha) {
+    private static Object output(String mensagem) {
         Object output;
-        if (linha.startsWith(ASPAS_SIMPLES)) {
-            if (linha.contains(MathOperator.ADD.get())) {
-                String[] partes = linha.trim().split("\\+");
-
-                Object var1, var2;
-
-                var1 = partes[0].trim().replace(ASPAS_SIMPLES, EMPTY_STRING);
-                var2 = partes[1].trim().replace(ASPAS_SIMPLES, EMPTY_STRING);
-
-                if (variaveis.containsKey(var1)) {
-                    var1 = variaveis.get(var1);
-                }
-
-                if (variaveis.containsKey(var2)) {
-                    var2 = variaveis.get(var2);
-                }
-
-                output = String.valueOf(var1) + var2;
+        if (mensagem.startsWith(Constants.ASPAS_SIMPLES)) {
+            if (mensagem.contains(MathOperator.ADD.get())) {
+                String[] partes = mensagem.trim().split(MathOperator.ADD.regex());
+                List<Object> valores = getValores(partes);
+                output = normalizaTipos(valores);
             } else {
-                output = linha.replace(ASPAS_SIMPLES, EMPTY_STRING);
+                output = mensagem.replace(Constants.ASPAS_SIMPLES, Constants.EMPTY_STRING);
             }
-        } else if (variaveis.containsKey(linha)) {
-            output = variaveis.get(linha);
-        } else if (linha.contains(MathOperator.ADD.get()) || linha.contains(MathOperator.SUB.get())
-                || linha.contains(MathOperator.MULT.get()) || linha.contains(MathOperator.DIV.get())) {
-            output = MathematicalOperatorHandler.mathOperator(linha);
+        } else if (variaveis.containsKey(mensagem)) {
+            output = variaveis.get(mensagem);
+        } else if (Util.isOperacaoMatematica(mensagem)) {
+            output = MathOperatorHandler.avaliar(mensagem);
         } else {
-            output = linha;
+            output = mensagem;
         }
+
         return output;
     }
 

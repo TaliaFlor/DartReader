@@ -9,19 +9,30 @@ import java.util.Map;
 
 /**
  * <p>
- * Guarda os dados da tradução em Runtime e os disponibiliza para o uso das outras classes
+ * Guarda os dados da interpretação em Runtime e os disponibiliza para o uso das outras classes
  * </p>
  */
 public interface DataContainer {
 
     /**
      * <p>
-     * Contém todas as linhas do arquivo .dart de entrada
+     * Contém as linhas lidas do arquivo de entrada
      * </p>
      */
-
     List<String> linhas = new ArrayList<>();
-    Map<String, Object> variaveis = new HashMap<>();
+
+    /**
+     * <p>
+     * Contém os tipos das variáveis
+     * </p>
+     */
     Map<String, Type> tipos = new HashMap<>();
+
+    /**
+     * <p>
+     * Contém os valores das variáveis
+     * </p>
+     */
+    Map<String, Object> variaveis = new HashMap<>();
 
 }

@@ -2,49 +2,28 @@ package enums;
 
 /**
  * <p>
- * Representa os tipos de dados em Dart e seus equivalentes em Java
+ * Representa os tipos das variaveis em Dart
  * </p>
  */
 public enum Type {
-
-    INT("int", "Integer"),
-    DOUBLE("double", "Double"),
-    NUM("num", "Double"),
-    STRING("string", "String"),
-    BOOLEAN("boolean", "Boolean"),
-    VAR("var", "Object");
-
-
-    private final String dart;  // Tipo da variável em Dart
-    private final String java;  // Tipo correspondente em Java
+    INT("int"),
+    DOUBLE("double"),
+    NUM("num"),
+    STRING("string"),
+    BOOLEAN("boolean"),
+    VAR("var");
 
 
-    Type(String dart, String java) {
-        this.dart = dart;
-        this.java = java;
+    private final String valor;
+
+
+    Type(String valor) {
+        this.valor = valor;
     }
 
 
-    /**
-     * <p>
-     * Retorna o tipo da váriavel em Dart
-     * </p>
-     *
-     * @return o tipo da variável em dart
-     */
-    public String dart() {
-        return dart;
-    }
-
-    /**
-     * <p>
-     * Retorna o tipo equivalente da variável em Java
-     * </p>
-     *
-     * @return o tipo equivalente em Java
-     */
-    public String java() {
-        return java;
+    public String get() {
+        return valor;
     }
 
 }

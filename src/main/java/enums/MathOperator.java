@@ -1,23 +1,33 @@
 package enums;
 
+/**
+ * <p>
+ * Representa os operadores matemáticos
+ * </p>
+ */
 public enum MathOperator {
-
-    ADD("+"),
-    SUB("-"),
-    MULT("*"),
-    DIV("/");
-
-    private final String operador;
+    ADD("+", "\\+"),
+    SUB("-", "\\-"),
+    MULT("*", "\\*"),
+    DIV("/", "\\/");
 
 
-    MathOperator(String operador) {
+    private final String valor;
+    private final String regex;     // Valor do operador em formato regex-safe
 
-        this.operador = operador;
+
+    MathOperator(String valor, String regex) {
+        this.valor = valor;
+        this.regex = regex;
     }
+
 
     public String get() {
-        return operador;
+        return valor;
     }
 
+    public String regex() {
+        return regex;
+    }
 
 }

@@ -1,21 +1,25 @@
 package enums;
 
+/**
+ * <p>
+ * Representa os operadores lógicos
+ * </p>
+ */
 public enum LogicOperator {
-
     AND("&&"),
     OR("||");
 
-    private final String operador;
+
+    private final String valor;
 
 
-    LogicOperator(String operador) {
-
-        this.operador = operador;
+    LogicOperator(String valor) {
+        this.valor = valor;
     }
+
 
     public String get() {
-        return operador;
+        return valor;
     }
-
 
 }

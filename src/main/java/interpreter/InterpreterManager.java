@@ -1,84 +1,61 @@
 package interpreter;
 
-import controledefluxo.ConditionalHandler;
+import controlflow.ConditionalHandler;
 import data.DataContainer;
-import data.GlobalVariables;
+import global.Constants;
+import global.GlobalVariables;
 import io.OutputHandler;
+import util.Util;
 import variable.VariableHandler;
 
 /**
  * <p>
- * Classe responsável por traduzir as linhas de código de Dart para Java
+ * Classe responsável por gerenciar a interpredação das linhas de código Dart
  * </p>
  */
 public class InterpreterManager implements DataContainer {
+    private static final String IMPORT = "import";
+    private static final String VOID = "void";
+
 
     /**
      * <p>
-     * Traduz as linhas do arquivo lido de Dart para Java
+     * Interpreta as linhas do arquivo
      * </p>
      */
-    public static void interpretarLinhas() {
+    public static void interpretar() {
         linhas.stream()
                 .map(String::trim)
-                .forEach(InterpreterManager::interpretarLinha);
-    }
-
-
-    // ======= MÉTODOS AUXILIARES =======
-
-    /**
-     * <p>
-     * Determina se a linha está declarando uma variável
-     * </p>
-     *
-     * @param linha linha a ser examinada
-     * @return caso a linha esteja declarando uma variável ou não
-     */
-    private static boolean hasVariavel(String linha) {
-        return linha.startsWith("int") || linha.startsWith("double") || linha.startsWith("num") ||
-                linha.startsWith("boolean") || linha.startsWith("string") || linha.startsWith("var")
-                || (!linha.contains("==") && linha.contains("="));
+                .forEach(InterpreterManager::interpretar);
     }
 
     /**
      * <p>
-     * Traduz cada linha de acordo com suas características
+     * Interpreta cada linha de acordo com suas características
      * </p>
      *
-     * @param linha linha a ser traduzida
+     * @param linha linha a ser interpretada
      */
-    private static void interpretarLinha(String linha) {
-        if (linha.isEmpty()) {
+    private static void interpretar(String linha) {
+        if (linha.isEmpty() || linha.startsWith(IMPORT) || linha.startsWith(VOID)) {
             return;
         }
 
-        if (linha.startsWith("import") || linha.startsWith("void")) {
-            return;
-        }
-
-        if (GlobalVariables.ENCONTROU_IF) {
-            if (linha.trim().startsWith("}")) {
-                if (linha.contains("if")) {
-                    ConditionalHandler.condicional(linha);
+        if (GlobalVariables.ENCONTROU_IF && !GlobalVariables.LER_CHAVES) {
+            if (linha.startsWith(Constants.FECHA_CHAVES)) {
+                if (linha.contains(Constants.IF)) {
+                    ConditionalHandler.interpretar(linha);
                 } else {    // Para 'else' e ifs únicos
                     GlobalVariables.ENCONTROU_IF = false;
                 }
-            } else if (GlobalVariables.LER_CHAVES) {
-                if (linha.startsWith("print(")) {
-                    OutputHandler.print(linha);
-                } else if (hasVariavel(linha)) {
-                    VariableHandler.definirVariavel(linha);
-                }
             }
         } else {
-            if (linha.startsWith("print(")) {
+            if (linha.startsWith(Constants.PRINT)) {
                 OutputHandler.print(linha);
-            } else if (hasVariavel(linha)) {
-                VariableHandler.definirVariavel(linha);
-            } else if (linha.contains("if")) {
-                GlobalVariables.ENCONTROU_IF = true;
-                ConditionalHandler.condicional(linha);
+            } else if (Util.isVariavel(linha)) {
+                VariableHandler.definir(linha);
+            } else if (linha.contains(Constants.IF)) {
+                ConditionalHandler.interpretar(linha);
             }
         }
     }

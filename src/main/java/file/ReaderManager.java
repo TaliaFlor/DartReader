@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 /**
  * <p>
- * Classe responsável pela leitura do arquivo a ser traduzido
+ * Classe responsável pela leitura do arquivo a ser interpretado
  * </p>
  */
 public class ReaderManager implements DataContainer {
@@ -19,10 +19,9 @@ public class ReaderManager implements DataContainer {
      * Lê um arquivo Dart e salva suas linhas na memória
      * </p>
      */
-    public static void lerArquivo() {
+    public static void ler() {
         try {
-            File file = new File(path);
-            BufferedReader reader = new BufferedReader(new FileReader(file));
+            BufferedReader reader = new BufferedReader(new FileReader(path));
 
             linhas.addAll(reader.lines().collect(Collectors.toList()));
 

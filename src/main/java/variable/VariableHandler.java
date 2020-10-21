@@ -1,15 +1,14 @@
 package variable;
 
 import data.DataContainer;
-import enums.MathOperator;
 import enums.Type;
 import io.InputHandler;
-import operators.MathematicalOperatorHandler;
+import operators.MathOperatorHandler;
 import util.Util;
 
 /**
  * <p>
- * Classe reponsável por traduzir a definição das variáveis
+ * Classe reponsável por interpretar a definição das variáveis
  * </p>
  */
 public class VariableHandler implements DataContainer {
@@ -19,12 +18,12 @@ public class VariableHandler implements DataContainer {
 
     /**
      * <p>
-     * Defini uma variável de acordo co seu tipo
+     * Defini uma variável de acordo com seu tipo
      * </p>
      *
      * @param line linha que contém a variável
      */
-    public static void definirVariavel(String line) {
+    public static void definir(String line) {
         Type tipo;
         if (variaveis.containsKey(line.split("=")[0].trim())) {
             tipo = tipos.get(line.split("=")[0].trim());
@@ -41,7 +40,7 @@ public class VariableHandler implements DataContainer {
                 tipo = Type.VAR;
             }
         }
-        writeVariavel(line, tipo);
+        definir(line, tipo);
     }
 
 
@@ -57,7 +56,7 @@ public class VariableHandler implements DataContainer {
      */
     private static String[] getPartes(String line) {
         for (Type tipo : Type.values()) {
-            line = line.replaceFirst(tipo.dart(), EMPTY_STRING);
+            line = line.replaceFirst(tipo.get(), EMPTY_STRING);
         }
 
         return line.replace(";", EMPTY_STRING)
@@ -88,15 +87,7 @@ public class VariableHandler implements DataContainer {
         return type;
     }
 
-    /**
-     * <p>
-     * Reserva a forma equivalente como a declaração da variável deve ser escrita em Java
-     * </p>
-     *
-     * @param line a linha que contém a variável
-     * @param tipo o tipo da variável
-     */
-    private static void writeVariavel(String line, Type tipo) {
+    private static void definir(String line, Type tipo) {
         String[] partes = getPartes(line);
         String nome = partes[0];
         Object valor = null;
@@ -105,7 +96,7 @@ public class VariableHandler implements DataContainer {
             tipo = getTrueType(partes[1]);
         }
 
-        if (partes.length > 1 && partes[1].contains("stdin.readLineSync()")) {   // Adiciona linha que recebe o input do usuário
+        if (partes.length > 1 && partes[1].contains("stdin.readLineSync()")) {
             valor = InputHandler.input(tipo);
 
         } else if (partes.length > 1) {
@@ -120,9 +111,8 @@ public class VariableHandler implements DataContainer {
         Object retorno;
         if (variaveis.containsKey(valor)) {
             retorno = variaveis.get(valor);
-        } else if ((valor.contains(MathOperator.ADD.get()) && !valor.contains("'")) || valor.contains(MathOperator.SUB.get())
-                || valor.contains(MathOperator.MULT.get()) || valor.contains(MathOperator.DIV.get())) {
-            retorno = MathematicalOperatorHandler.mathOperator(valor);
+        } else if (Util.isOperacaoMatematica(valor)) {
+            retorno = MathOperatorHandler.avaliar(valor);
         } else if (tipo == Type.STRING) {
             retorno = valor;
         } else if (tipo == Type.BOOLEAN) {
@@ -130,7 +120,7 @@ public class VariableHandler implements DataContainer {
         } else {
             retorno = Double.parseDouble(valor);
         }
-
         return retorno;
     }
+
 }

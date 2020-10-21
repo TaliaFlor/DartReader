@@ -4,16 +4,14 @@ import interpreter.InterpreterManager;
 /**
  * <p>
  * Classe principal do projeto, responsável por rodar os métodos
- * que fazem a leitura, tradução e escrita dos dados
+ * que fazem a leitura e interpretação dos dados
  * </p>
  */
 public class DartReader {
 
-    //TODO BUG: O resultado é:  + result ---> if está entrando em tudo
-
     public static void main(String[] args) {
-        ReaderManager.lerArquivo();
-        InterpreterManager.interpretarLinhas();
+        ReaderManager.ler();
+        InterpreterManager.interpretar();
     }
 
 }
